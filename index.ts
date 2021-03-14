@@ -196,3 +196,25 @@ class BlockSideJump {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    bsj : BlockSideJump = new BlockSideJump()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.bsj.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.bsj.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.bsj.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
