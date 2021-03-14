@@ -27,3 +27,32 @@ class ScaleUtil {
         return Math.sin(scale * Math.PI)
     }
 }
+
+class DrawingUtil {
+
+    static drawBlockSideJump(context : CanvasRenderingContext2D, scale : number) {
+        const sf : number = ScaleUtil.sinify(scale)
+        const sf1 : number = ScaleUtil.divideScale(sf, 0, parts)
+        const sf2 : number = ScaleUtil.divideScale(sf, 1, parts)
+        const sf3 : number = ScaleUtil.divideScale(sf, 2, parts)
+        const sf4 : number = ScaleUtil.divideScale(sf, 3, parts)
+        const size : number = Math.min(w, h) / sizeFactor 
+
+        context.save()
+        context.translate(w / 2, h / 2)
+        context.rotate(rot * sf4)
+        for (var j = 0; j < 2; j++) {
+            context.save()
+            context.scale(1 - 2 * j, 1)
+            context.translate(-w /2 + size / 2 + (w / 2 - size / 2) * sf3, -h / 2 + (h / 2 - size + size * j) * sf2)
+            context.fillRect(-size / 2, 0, size, size * sf1)
+            context.restore()
+        }
+        context.restore()
+    }
+
+    static drawBSJNode(context : CanvasRenderingContext2D, i : number, scale : number) {
+        context.fillStyle = colors[i]
+        DrawingUtil.drawBlockSideJump(context, scale)
+    }
+}
